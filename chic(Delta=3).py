@@ -75,7 +75,8 @@ for i in dic10.keys():
     if dic10[i]>2:
         print(i)
 
-
+len(dic10)
+dic10.values()
 
 # In[4]:
 
