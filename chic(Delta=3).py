@@ -1,3 +1,4 @@
+︠9835cced-87fa-4472-8ca2-d7e058769cd6s︠
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -11,7 +12,8 @@ L1 = list(permutations(range(1, 5)))
 def intersection(lst1, lst2):
     return list(set(lst1) & set(lst2))
 
-#function that returns all derangements of a list
+#function that returns all derangements of a list 
+#Here a derangement is a permutation for which no element remains at the same spot
 def derangements(L):
     return ( perm for perm in permutations(L)
              if all(p != L[indx] for indx, p in enumerate(perm)) )
@@ -25,14 +27,14 @@ for L in L1:
 
 #Here we compute all bad combinations of possible colourings/ derangements of the neighbours of the vertices u and v, 
 #where wlog we assume that u_1 had colouring {1,2,3,4}=L1[0].
-#Switching the colourings for v_1 and v_2 of course also leads to a bad combination (but we handle it similar at the end)
+#Switching the colourings for v_1 and v_2 of course also leads to a bad combination, but for clarity we omit this factor 2 improvement
 
 M=[];
 S2=set();
 
-for i in range(1,24):
-    for j in range(0,23):
-        for k in range(j+1,24):
+for i in range(0,24):
+    for j in range(0,24):
+        for k in range(0,24):
             poss=False;
             for U in intersection(dict1[L1[0]],dict1[L1[i]]):
                 for V in intersection(dict1[L1[j]],dict1[L1[k]]):
@@ -70,8 +72,9 @@ for m in M:
 dic10
 
 for i in dic10.keys():
-    if dic10[i]>1:
+    if dic10[i]>2:
         print(i)
+
 
 
 # In[4]:
@@ -97,7 +100,7 @@ for h in range(0,23):
     for i in range(h+1,24):
         if len(intersection(dict1[L1[h]],dict1[L1[i]]))-len(intersection(intersection(dict1[L1[h]],dict1[L1[i]]),S))==0:
             print(intersection(dict1[L1[h]],dict1[L1[i]]))
-
+            
 # In[6]:
 # Finally, we check that if u_2 has one of the two final derangements, by taking the derangements for v_1 and v_2 as above,
 # it is a situation which can be extended
