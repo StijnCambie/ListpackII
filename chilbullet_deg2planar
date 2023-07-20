@@ -1,0 +1,39 @@
+#In this document, an example of a planar graph with degeneracy 2 for which the fractional list packing number is 4, is verified
+
+#define the function that build the list cover again
+from tqdm.notebook import (tqdm)
+from sage.graphs.independent_sets import IndependentSets
+
+def gen_list_cover(G, L):
+    
+    n = G.order()
+    assert(G.vertices(sort=True) == list(range(n)))
+    
+    H = Graph()
+    for u in G.vertices(sort=False):
+        H.add_clique([(u, c) for c in L[u]])
+        
+    for (u, v) in G.edges(sort=False, labels=False):
+        for c in L[u] & L[v]:
+            H.add_edge(((u, c), (v, c)))
+    
+    return H
+
+#construct a graph on 10 vertices and lists of length 3
+G = Graph({0: [1,2,3,5],1:[2,3,4,9],2:[4,5],7:[3,5,8],6:[4,5,8],8:[9]})
+L1=[4,4,4,3,3,3,2,2,4,4]
+L=[]
+for i in range(len(L1)):
+    a=[1,2,3,4].copy()
+    a.remove(L1[i])
+    L.append(set(a))
+
+#check that the graph is planar and has degeneracy 2 (at most 2)
+G.is_planar()
+G.show()
+ordering, core = G.cores(3)
+len(core)==0
+#check that packing - and fractional packing number are larger than 3
+H = gen_list_cover(G, L)
+H.chromatic_number()#4
+H.fractional_chromatic_number()#70/23
