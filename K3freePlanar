@@ -18,7 +18,19 @@ dict1={};
 for L in L1:
     dict1[L]=list(derangements(L))
 
+#verify that there are at least 12 common derangements of two permutations of [5]
+d={};
 
+for i in range(0,119):
+    for j in range(i+1,120):
+        a=len(intersection(dict1[L1[j]],dict1[L1[i]]));
+        if a in d.keys():
+            d[a]+=1;
+        if a not in d.keys():
+            d[a]=1;
+            
+d
+min(d.keys())
 
 #Given 3 neigbhours, we verify that either the colouring cannnot be extended in that vertex, or there are at least 2 ways to do so and those 2 colourings are very different (on every index, a different colour appears)
 #Furthermore, the 40 ways which are unextendable are easily characterised
@@ -36,17 +48,15 @@ for i in range(1,119):
         if a==2:
             M.append([0,i,j])
 d
+d.keys()
 
 Z=[]
 for [k,i,j] in M:
     Z.append(intersection(intersection(dict1[L1[k]],dict1[L1[i]]),dict1[L1[j]]))
 
-def common(a,b):
-    N=0;
-    for i in range(5):
-        N+=(a[i]==b[i])
-    return N;
-        
+#check that the two common derangements are derangements of each other
 for [a,b] in Z:
-    if common(a,b)>0:
+    if not (a in dict1[b]):
         print(a,b)
+        
+
